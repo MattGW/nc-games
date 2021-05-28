@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getReviews, getCategories } from '../utils/api';
+import { getReviews, getCategories, getAndSortReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
 
 const Reviews = ({ reviews, setReviews }) => {
@@ -33,7 +33,13 @@ const Reviews = ({ reviews, setReviews }) => {
 
   function sortOptionSelected(event) {
     const sortOption = event.target.value;
-    console.log(sortOption);
+    const categoryInHeading = document
+      .getElementById('reviewsHeading')
+      .innerText.split(' ')[7];
+
+    getAndSortReviews(sortOption, categoryInHeading).then((sortedReviews) => {
+      setReviews(sortedReviews);
+    });
   }
 
   return (
@@ -69,6 +75,9 @@ const Reviews = ({ reviews, setReviews }) => {
               <h3>{review.title}</h3>
             </Link>
             <p>Review by {review.owner}</p>
+            <p>Created {review.created_at}</p>
+            <p>This Review currently has {review.comment_count} comments</p>
+            <p>This Review has {review.votes} votes</p>
             <img src={review.review_img_url} alt="" width="200" height="200" />
           </li>
         ))}
@@ -77,3 +86,10 @@ const Reviews = ({ reviews, setReviews }) => {
   );
 };
 export default Reviews;
+
+// on the option with value="created_at"
+// I need to use https://www.pluralsight.com/guides/how-to-get-selected-value-from-a-mapped-select-input-in-react
+// to try and set the drop down back to created_at when you select a new category to view by
+
+// is it easier to have the reviews just ordered in whatever it says when you select another category? rather thsn trying
+// to default the drop down back to "created_at" ?

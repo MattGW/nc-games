@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getReviews } from '../utils/api';
 
 const HomePage = () => {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    getReviews().then((reviews) => {
+      setReviews(reviews);
+    });
+  }, []);
+
   return (
     <div>
       <header>
@@ -8,10 +17,10 @@ const HomePage = () => {
       </header>
       <main>
         <ul>
-          <li>random review</li>
-          <li>random review</li>
-          <li>random review</li>
-          <li>random review</li>
+          <li>
+            what I need to do is make a get request for only 4 reviews, then can
+            set the state and map over them
+          </li>
         </ul>
       </main>
     </div>

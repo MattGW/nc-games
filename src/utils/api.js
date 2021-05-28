@@ -8,7 +8,9 @@ export const getReviews = async (categorySelected) => {
   let apiSearch = '/reviews';
 
   if (categorySelected && categorySelected !== 'allReviews') {
-    apiSearch += `?category=${categorySelected}`;
+    apiSearch += `?category=${categorySelected}&?sort_by=created_at`;
+  } else {
+    apiSearch += '?sort_by=created_at';
   }
 
   const { data } = await boardGamesApi.get(apiSearch);
@@ -52,17 +54,24 @@ export const patchCommentVoteBy1 = async (commentId) => {
   return response;
 };
 
-export const getAndSortReviews = async (sortOrder) => {
-  const data = await boardGamesApi.get('/reviews', {
-    params: {
-      order: sortOrder
-    }
-  });
-  return data;
+export const getAndSortReviews = async (sortOption, category) => {
+  if (category) {
+    const response = await boardGamesApi.get('/reviews', {
+      params: {
+        category: category,
+        sort_by: sortOption
+      }
+    });
+    return response.data.reviews;
+  } else {
+    const response = await boardGamesApi.get('/reviews', {
+      params: {
+        sort_by: sortOption
+      }
+    });
+    return response.data.reviews;
+  }
 };
-
-// for ordering we just need to make a new get request with the right query and then update the state and re-render based on specific
-// order query
 
 // Ant reccomends when adding a comment or a review then just push the new comment or review to the array rather than make a
 // new get request
