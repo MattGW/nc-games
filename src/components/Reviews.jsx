@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { getReviews, getCategories, getAndSortReviews } from '../utils/api';
 import { Link } from 'react-router-dom';
 
-const Reviews = ({ reviews, setReviews }) => {
+const Reviews = () => {
   const [categories, setCategories] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   //useEffects
 

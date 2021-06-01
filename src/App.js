@@ -5,11 +5,8 @@ import HomePage from './components/HomePage';
 import Nav from './components/Nav';
 import Reviews from './components/Reviews';
 import SpecificReview from './components/SpecifcReview';
-import { useState } from 'react';
 
 function App() {
-  const [reviews, setReviews] = useState([]);
-
   return (
     <Router>
       <div className="App">
@@ -19,7 +16,7 @@ function App() {
             <HomePage />
           </Route>
           <Route path="/reviews" exact>
-            <Reviews reviews={reviews} setReviews={setReviews} />
+            <Reviews />
           </Route>
           <Route path="/reviews/:review_id" exact>
             <SpecificReview />
